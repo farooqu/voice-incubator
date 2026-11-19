@@ -8,6 +8,8 @@ name: Image
 on:
   workflow_dispatch:
   push:
+    branches:
+      - main
     tags:
       - "v*"
 
@@ -16,10 +18,11 @@ permissions:
   packages: write
 
 env:
-  IMAGE: ghcr.io/ohf-voice/voice-incubator
+  IMAGE: ghcr.io/farooqu/voice-incubator
 
 jobs:
   build:
+    if: github.repository == 'farooqu/voice-incubator'
     strategy:
       matrix:
         include:
