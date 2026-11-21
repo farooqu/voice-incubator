@@ -3967,6 +3967,11 @@ class VoiceIncubatorApp:
         An answer to what it asked back in the conversation is that answer;
         a timer is Home Assistant's own agent's, to ring on its satellite. An
         LLM's answer goes to ``on_text`` a piece at a time, as it comes."""
+        if self.agent.asking(text):
+            # The conversation agent the app asks is the app itself (Wyoming's,
+            # in Home Assistant): asking it again would never end.
+            _LOGGER.warning("The conversation agent %s is Voice Incubator itself: choose another on the Settings page", self.agent.agent_id)
+            return Turn("", False)
         context = {k: v for k, v in (context or {}).items() if k in CONTEXT_KEYS and v}
         satellite = self.assist_satellite(context)
         record = self.calls.begin("wyoming", satellite.as_dict())

@@ -1,5 +1,36 @@
 # Changelog
 
+## 0.3.3
+
+- **Satellites stay connected on a weak Wi-Fi link.** Missed mDNS
+  refreshes expired a satellite's record while it was still there, which
+  ended its session; nothing reconnected until it was found again, ~50
+  minutes in one report. A session now ends only on its own connection and
+  keeps reconnecting to the last address it had, and a satellite whose
+  name got no answer is asked again (#18).
+- **Home Assistant restarting, or starting after the app, is waited for.**
+  The app read it before its integrations were loaded: the integration
+  stayed "not loaded" and the home's sentence triggers were missing until
+  the app was restarted. Now nothing is read until Home Assistant says it
+  has started (#15, #1).
+- **Voice Incubator as its own conversation agent doesn't loop.** With the
+  fallback agent set to Voice Incubator's Wyoming agent in Home Assistant,
+  a sentence it didn't know was asked of itself again and again. It's now
+  said "Sorry, I didn't understand that" once, with a warning in the log to
+  choose another agent (#9).
+- **The integration is installed from the Marketplace,** which HACS became
+  in Home Assistant 2026.11, with no restart (#12).
+- **The integration notice is shown once,** its state in plain words ("is
+  not loaded in Home Assistant", not "not_loaded").
+- **A device heard only in its area, said with that area elsewhere, says
+  so:** "the Fan in the Office can only be controlled from there", not
+  "there's no Fan here, only in the Office".
+- **Sentence triggers win over an area's own commands as good as them,** as
+  Home Assistant runs a trigger before its intents.
+- **English:** "change the lights to blue" sets the color and color
+  temperature; "what's the time" and "tell me the time" tell it, like the
+  date.
+
 ## 0.3.2
 
 - **Small boxes don't run out of memory building the home's sentences.**
